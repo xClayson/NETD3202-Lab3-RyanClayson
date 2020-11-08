@@ -7,57 +7,58 @@
         mc:Ignorable="d"
         Title="Navigate The World" Height="450" Width="800">
     <Grid>
-        <TabControl x:Name="tabControl">
+        <TabControl x:Name="tabControl" SelectionChanged="TabControl_SelectionChanged">
           <!--Tab that allows user to enter information and create an entry-->
           <TabItem x:Name="tbCreateEntry" Header="Create Entry">
-                <Grid>
-                  <!--Start of Stack Panel-->
-                    <StackPanel Margin="50" Orientation="Vertical">
-                      <!--Label and Textboxes for user input-->
-                        <Label Name="lbBuyerName" Content="_Buyer Name:"></Label>
-                        <TextBox x:Name="txtBuyerName"></TextBox>
-                        <Label Name="lbNumOfShares" Content="_# of Shares:"></Label>
-                        <TextBox Name="txtNumOfShares"></TextBox>
-                        <Label Name="lbDatePurchased" Content="_Date Purchased:"></Label>
-                        <DatePicker Name="dpDatePurchased"></DatePicker>
-                        <Label Name="lbShareType" Content="_Share Type:"></Label>
-                        <RadioButton x:Name="rbCommon" Content="_Common" IsChecked="True" ></RadioButton>
-                        <RadioButton x:Name="rbPreferred" Content="_Preferred"></RadioButton>
-                        <Button x:Name="btnCreate" Content="Create Entry" Height="50" Width="150" Click="btnCreateEntry_Click"></Button>
-                      <!--End of Stackpanel-->
-                    </StackPanel>
-                  <!--End of Grid-->
-                </Grid>
+            <!--Start of Stack Panel-->
+            <StackPanel Grid.Column="1" Margin="50" Orientation="Vertical">
+              <!--Label and Textboxes for user input-->
+              <!--Buyer Name Label/Textbox-->
+              <Label Name="lbBuyerName" Content="_Buyer Name:" HorizontalAlignment="Left"></Label>
+              <TextBox x:Name="txtBuyerName"></TextBox>
+              <!--Number of Shares Label/Textbox-->
+              <Label Name="lbNumOfShares" Content="_# of Shares:" HorizontalAlignment="Left"></Label>
+              <TextBox Name="txtNumOfShares"></TextBox>
+              <!--Date Selection Label/Picker-->
+              <Label Name="lbDatePurchased" Content="_Date Purchased:" HorizontalAlignment="Left"></Label>
+              <DatePicker Name="dpDatePurchased"></DatePicker>
+              <!--Share Type Label/Radio Buttons-->
+              <Label Name="lbShareType" Content="_Share Type:" HorizontalAlignment="Left"></Label>
+              <RadioButton x:Name="rbCommon" Content="_Common" IsChecked="True" ></RadioButton>
+              <RadioButton x:Name="rbPreferred" Content="_Preferred"></RadioButton>
+              <!--Create Button-->
+              <Button x:Name="btnCreateEntry" Content="Create Entry" Height="50" Width="150" Click="btnCreateEntry_Click"></Button>
+              <!--End of Stackpanel-->
+            </StackPanel>
             <!--End of TabItem-->
-            </TabItem>
+          </TabItem>
           <!--Tab that allows user to view information-->
             <TabItem x:Name="tbViewSummary" Header="View Summary">
-                <Grid>
-                  <!--Start of Stack Panel-->
-                    <StackPanel Margin="50" Orientation="Vertical">
-                      <!--Label and Textboxes for view summary-->
-                      <Label x:Name="lbNumCommonSold" Content="# of Common Shares Sold:"></Label>
-                      <TextBox x:Name="txtNumCommonSold"></TextBox>
-                      <Label x:Name="lbNumPreferredSold" Content="# of Preferred Shares Sold:"></Label>
-                      <TextBox x:Name="txtNumPreferredSold"></TextBox>
-                      <Label x:Name="lbRevenue" Content="Revenue Generated"></Label>
-                      <TextBox x:Name="txtRevenue"></TextBox>
-                      <Label x:Name="lbCommonSharesAvailable" Content="Common Shares Available:"></Label>
-                      <TextBox x:Name="txtCommonSharesAvailable"></TextBox>
-                      <Label x:Name="lbPreferredSharesAvailable" Content="Preferred Shares Available:"></Label>
-                      <TextBox x:Name="txtPreferredSharesAvailable"></TextBox>
-                      <!--End of Stackpanel-->
-                    </StackPanel>
-                  <!--End of Grid-->
-                </Grid>
+              <!--Start of Stack Panel-->
+              <StackPanel Margin="50" Orientation="Vertical">
+                <!--Label and Textboxes for view summary-->
+                <!--Number of Common Shares Sold Label/Textblock-->
+                <Label x:Name="lbNumCommonSold" Content="# of Common Shares Sold:" HorizontalAlignment="Left"></Label>
+                <TextBlock x:Name="txtNumCommonSold" Background="DarkGray" ></TextBlock>
+                <!--Number of Preferred Shares Sold Label/Textblock-->
+                <Label x:Name="lbNumPreferredSold" Content="# of Preferred Shares Sold:" HorizontalAlignment="Left"></Label>
+                <TextBlock x:Name="txtNumPreferredSold" Background="DarkGray" ></TextBlock>
+                <!--Revenue Generated Label/Textblock-->
+                <Label x:Name="lbRevenue" Content="Revenue Generated" HorizontalAlignment="Left"></Label>
+                <TextBlock x:Name="txtRevenue" Background="DarkGray" ></TextBlock>
+                <!--Number of Common Shares Available Label/Textblock-->
+                <Label x:Name="lbCommonSharesAvailable" Content="Common Shares Available:" HorizontalAlignment="Left"></Label>
+                <TextBlock x:Name="txtCommonSharesAvailable" Background="DarkGray"></TextBlock>
+                <!--Number of Preferred Shares Available Label/Textblock-->
+                <Label x:Name="lbPreferredSharesAvailable" Content="Preferred Shares Available:" HorizontalAlignment="Left"></Label>
+                <TextBlock x:Name="txtPreferredSharesAvailable" Background="DarkGray"></TextBlock>
+                <!--End of Stackpanel-->
+              </StackPanel>
               <!--End of TabItem-->
             </TabItem>
           <!--Tab that allows user to view entries-->
             <TabItem x:Name="tbViewEntries" Header="View Entries">
-              <Grid>
-               <DataGrid Name="shareGrid"></DataGrid>
-                <!--End of Grid-->
-              </Grid>
+              <DataGrid Name="viewEntriesGrid"></DataGrid>
               <!--End of TabItem-->
             </TabItem>
           <!--End of TabControl-->
