@@ -25,8 +25,8 @@ namespace NETD3202_Lab3_RyanClayson.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Ryan\\source\\repos\\NE" +
-            "TD3202-Lab3-RyanClayson\\NavigateTheWorld.mdf;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Fall Semester 2020\\NETD32" +
+            "02\\NETD3202-Lab3-RyanClayson\\NavigateTheWorld.mdf\";Integrated Security=True")]
         public string connect_string {
             get {
                 return ((string)(this["connect_string"]));

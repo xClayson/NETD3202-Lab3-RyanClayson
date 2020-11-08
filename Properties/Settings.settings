@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="connect_string" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Ryan\source\repos\NETD3202-Lab3-RyanClayson\NavigateTheWorld.mdf;Integrated Security=True</Value>
+      <Value Profile="(Default)">Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="C:\Fall Semester 2020\NETD3202\NETD3202-Lab3-RyanClayson\NavigateTheWorld.mdf";Integrated Security=True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
