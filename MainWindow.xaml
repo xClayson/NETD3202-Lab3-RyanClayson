@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NETD3202_Lab3_RyanClayson"
         mc:Ignorable="d"
-        Title="Navigate The World" Height="450" Width="800">
+        Title="Navigate The World" Height="450" Width="650">
     <Grid>
         <TabControl x:Name="tabControl" SelectionChanged="TabControl_SelectionChanged">
           <!--Tab that allows user to enter information and create an entry-->
-          <TabItem x:Name="tbCreateEntry" Header="Create Entry">
+          <TabItem x:Name="tbCreateEntry" Header="Create Entry" Width="200">
             <!--Start of Stack Panel-->
             <StackPanel Grid.Column="1" Margin="50" Orientation="Vertical">
               <!--Label and Textboxes for user input-->
@@ -33,7 +33,7 @@
             <!--End of TabItem-->
           </TabItem>
           <!--Tab that allows user to view information-->
-            <TabItem x:Name="tbViewSummary" Header="View Summary">
+            <TabItem x:Name="tbViewSummary" Header="View Summary" Width="200">
               <!--Start of Stack Panel-->
               <StackPanel Margin="50" Orientation="Vertical">
                 <!--Label and Textboxes for view summary-->
@@ -57,7 +57,7 @@
               <!--End of TabItem-->
             </TabItem>
           <!--Tab that allows user to view entries-->
-            <TabItem x:Name="tbViewEntries" Header="View Entries">
+            <TabItem x:Name="tbViewEntries" Header="View Entries" Width="200">
               <DataGrid Name="viewEntriesGrid"></DataGrid>
               <!--End of TabItem-->
             </TabItem>

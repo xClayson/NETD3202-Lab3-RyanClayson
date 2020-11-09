@@ -42,16 +42,14 @@ namespace NETD3202_Lab3_RyanClayson
             try
             {
                 //VALIDATIONS
-                //Checks to see if user has left textbox's empty
+                //Checks to see if user has left textbox's and selected date empty
                 if (txtBuyerName.Text == string.Empty || txtNumOfShares.Text == string.Empty || dpDatePurchased.SelectedDate == null)
                 {
                     MessageBox.Show("Must fill in all textfields");
                     //Reset's all fields, date selection, and radio buttons
-                    txtBuyerName.Text = string.Empty;
-                    txtNumOfShares.Text = string.Empty;
+                    txtBuyerName.Text = string.Empty; txtNumOfShares.Text = string.Empty;
                     dpDatePurchased.SelectedDate = null;
-                    rbCommon.IsChecked = false;
-                    rbPreferred.IsChecked = false;
+                    rbCommon.IsChecked = false; rbPreferred.IsChecked = false;
                 }
                 else if (rbCommon.IsChecked == false && rbPreferred.IsChecked == false)
                 {
@@ -59,6 +57,7 @@ namespace NETD3202_Lab3_RyanClayson
                     rbCommon.IsChecked = false;
                     rbPreferred.IsChecked = false;
                 }
+                //If all validations pass retrieve user information
                 else
                 {
                     int shares;
@@ -69,7 +68,7 @@ namespace NETD3202_Lab3_RyanClayson
                         string name = txtBuyerName.Text;
                         string date = dpDatePurchased.SelectedDate.ToString();
                         string shareType = "";
-                        //Check the radio buttons for share type
+                        //Checks the share type
                         if (rbCommon.IsChecked == true)
                         {
                             shareType = "Common";
@@ -79,18 +78,18 @@ namespace NETD3202_Lab3_RyanClayson
                             shareType = "Preferred";
                         }
 
-                        //connects to the database
+                        //Connects to the database
                         string connectString = Properties.Settings.Default.connect_string;
                         SqlConnection cn = new SqlConnection(connectString);
                         cn.Open();
 
-                        //Insert Query
+                        //Insert User Information into table
                         string insertString = "INSERT INTO buyers (name, shares, datePurchased, shareType) VALUES ('" + name + "', '" + shares + "', '" + date + "', '" + shareType + "')";
                         SqlCommand command = new SqlCommand(insertString, cn);
                         command.ExecuteNonQuery();
 
                         string selectionQuery = "";
-                        //If Common is the shareType
+                        //If Common is the shareType. 
                         if (shareType == "Common")
                         {
                             selectionQuery = "SELECT numCommonShares FROM shares";
@@ -117,12 +116,14 @@ namespace NETD3202_Lab3_RyanClayson
                             string updateQuery = "";
                             if (shareType == "Common")
                             {
+                                //updates database for common shares
                                 updateQuery = "UPDATE shares SET numCommonShares = '" + availableShares + "' ";
                                 SqlCommand thirdCommand = new SqlCommand(updateQuery, cn);
                                 thirdCommand.ExecuteScalar();
                             }
                             else if (shareType == "Preferred")
                             {
+                                //updates database for preferred shares
                                 updateQuery = "UPDATE shares SET numPreferredShares = '" + availableShares + "' ";
                                 SqlCommand thirdCommand = new SqlCommand(updateQuery, cn);
                                 thirdCommand.ExecuteScalar();
@@ -130,9 +131,11 @@ namespace NETD3202_Lab3_RyanClayson
                             //Show's that the update was a success
                             MessageBox.Show("Successfully added share purchase!");
                             //Reset's all fields, date selection, and radio buttons
-                            txtBuyerName.Text = string.Empty; txtNumOfShares.Text = string.Empty; dpDatePurchased.SelectedDate = null;
+                            txtBuyerName.Text = string.Empty; txtNumOfShares.Text = string.Empty; 
+                            dpDatePurchased.SelectedDate = null;
                             rbCommon.IsChecked = false; rbPreferred.IsChecked = false;
                             cn.Close();
+                            //closes
                         }
                     }
                     else
@@ -150,32 +153,38 @@ namespace NETD3202_Lab3_RyanClayson
                 MessageBox.Show(ex.ToString());
             }
         }
+        /// <summary>
+        /// Retrieves data from the buyers table to display for the view entries
+        /// </summary>
         private void FillDataGrid()
         {
             try
             {
-                //Connect to the db
+                //Connect to the database
                 string connectString = Properties.Settings.Default.connect_string;
                 SqlConnection cn = new SqlConnection(connectString);
                 cn.Open();
-
-                //Query the db
+                //Selects all fields in buyers table
                 string selectQuery = "SELECT * FROM buyers";
                 SqlCommand commandQuery = new SqlCommand(selectQuery, cn);
-
-                //Retrieve the data
+                //Retrieves the data
                 SqlDataAdapter sda = new SqlDataAdapter(commandQuery);
                 DataTable dt = new DataTable("Buyers");
-
-                //Set the data
+                //Fills and sets the data
                 sda.Fill(dt);
                 viewEntriesGrid.ItemsSource = dt.DefaultView;
             }
+            //exception has occurred
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
+        /// <summary>
+        /// Tab control settings. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string tabItem = ((sender as TabControl).SelectedItem as TabItem).Header as string;
@@ -190,38 +199,39 @@ namespace NETD3202_Lab3_RyanClayson
                         SqlConnection cn = new SqlConnection(connectString);
                         cn.Open();
 
-                        //Prepare and Execute Queries
+                        //Prepare Queries
                         //Common Shares
                         string retrieveCommonSharesSold = "SELECT SUM(shares) FROM buyers WHERE shareType = 'Common'";
-                        SqlCommand fourthCommand = new SqlCommand(retrieveCommonSharesSold, cn);
-
                         //Preferred Shares
                         string retrievePreferredSharesSold = "SELECT SUM(shares) FROM buyers WHERE shareType = 'Preferred'";
-                        SqlCommand fifthCommand = new SqlCommand(retrievePreferredSharesSold, cn);
-
                         //Revenue Generated
-                        string retrieveDate = "SELECT shares, DATEDIFF(DAY, '2000-01-01', datePurchased) AS days FROM buyers WHERE shareType = 'Common' OR shareType = 'Preferred'";
-                        //Creating a hidden table to pull the data from later
-                        SqlDataAdapter dateCommand = new SqlDataAdapter(retrieveDate, cn);
+                        string retrievePurchaseDate = "SELECT shares, DATEDIFF(DAY, '2000-01-01', datePurchased) AS days FROM buyers WHERE shareType = 'Common' OR shareType = 'Preferred'";
+
+                        //Execute Queries
+                        //Common Shares
+                        SqlCommand fourthCommand = new SqlCommand(retrieveCommonSharesSold, cn);
+                        //Preferred Shares
+                        SqlCommand fifthCommand = new SqlCommand(retrievePreferredSharesSold, cn);
+                        //Revenue Generated
+                        SqlDataAdapter dateCommand = new SqlDataAdapter(retrievePurchaseDate, cn);
                         DataTable dt = new DataTable();
                         dateCommand.Fill(dt);
 
-                        //variables to store data in foreach loop
+                        //Variables 
                         string date = "";
-                        int revenue = 0;
-                        int numShares;
-                        //Run through each row on the hidden table
+                        int totalRevenue = 0;
+                        int numberOfShares;
                         foreach (DataRow row in dt.Rows)
                         {
                             //Stores an int based on the date in the row
                             date = row["days"].ToString();
-                            //Stores the number of shares in a row
-                            numShares = (int)row["shares"];
-                            //Generates random price for stocks
-                            Random rand = new Random();
-                            int money = rand.Next(int.Parse(date));
-                            //Calculates the money made
-                            revenue += money * numShares;
+                            //Stores number of shares in a row
+                            numberOfShares = (int)row["shares"];
+                            //Generates random value of stocks
+                            Random rnd = new Random();
+                            int revenue = rnd.Next(int.Parse(date));
+                            //Calculates the revenue
+                            totalRevenue += revenue * numberOfShares;
                         }
 
                         //Common Available
@@ -234,18 +244,22 @@ namespace NETD3202_Lab3_RyanClayson
 
                         //Updates the Text Blocks
                         //Common Shares Sold
-                        int commonShares = Convert.ToInt32(fourthCommand.ExecuteScalar());
-                        txtNumCommonSold.Text = commonShares.ToString();
+                        int commonSharesSold = Convert.ToInt32(fourthCommand.ExecuteScalar());
+                        txtNumCommonSold.Text = commonSharesSold.ToString();
+                        
                         //Preferred Shares Sold
-                        int preferredShares = Convert.ToInt32(fifthCommand.ExecuteScalar());
-                        txtNumPreferredSold.Text = preferredShares.ToString();
+                        int preferredSharesSold = Convert.ToInt32(fifthCommand.ExecuteScalar());
+                        txtNumPreferredSold.Text = preferredSharesSold.ToString();
+                        
                         //Shows revenue as string 
-                        txtRevenue.Text = revenue.ToString();
-                        //Common Available
+                        txtRevenue.Text = totalRevenue.ToString();
+                        
+                        //Common Shares Available
                         int commonSharesAvailable = Convert.ToInt32(seventhCommand.ExecuteScalar());
                         commonSharesAvailable = commonSharesAvailable - int.Parse(txtNumCommonSold.Text);
                         txtCommonSharesAvailable.Text = commonSharesAvailable.ToString();
-                        //Preferred Available
+                        
+                        //Preferred Shares Available
                         int preferredSharesAvailable = Convert.ToInt32(eigthCommand.ExecuteScalar());
                         preferredSharesAvailable = preferredSharesAvailable - int.Parse(txtNumPreferredSold.Text);
                         txtPreferredSharesAvailable.Text = preferredSharesAvailable.ToString();
@@ -255,13 +269,13 @@ namespace NETD3202_Lab3_RyanClayson
                         MessageBox.Show(ex.ToString());
                     }
                     break;
-
+                //When View entries is selected. Shows entries
                 case "View Entries":
 
                     FillDataGrid();
 
                     break;
-
+                //Create entry tab
                 case "Create Entry":
 
                     break;
