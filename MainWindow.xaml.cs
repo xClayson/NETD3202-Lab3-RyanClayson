@@ -20,6 +20,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
+using System.Collections.ObjectModel;
 
 namespace NETD3202_Lab3_RyanClayson
 {
@@ -28,9 +29,12 @@ namespace NETD3202_Lab3_RyanClayson
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Creates new list
+        List<Shares> list = new List<Shares>();
         public MainWindow()
         {
             InitializeComponent();
+            lstShares.ItemsSource = list;
         }
         /// <summary>
         /// Create entry button logic
@@ -96,7 +100,7 @@ namespace NETD3202_Lab3_RyanClayson
                         }
                         //If Preferred is the shareType
                         else if (shareType == "Preferred")
-                        {
+                        {                           
                             selectionQuery = "SELECT numPreferredShares FROM shares";
                         }
 
@@ -116,6 +120,10 @@ namespace NETD3202_Lab3_RyanClayson
                             string updateQuery = "";
                             if (shareType == "Common")
                             {
+                                //Adds the values received to the list. Displays in View Objects tab when new entry is created
+                                CommonShares commonShare = new CommonShares(txtBuyerName.Text, dpDatePurchased.Text, shares, shareType, votingPower);
+                                list.Add(commonShare);
+
                                 //updates database for common shares
                                 updateQuery = "UPDATE shares SET numCommonShares = '" + availableShares + "' ";
                                 SqlCommand thirdCommand = new SqlCommand(updateQuery, cn);
@@ -123,6 +131,10 @@ namespace NETD3202_Lab3_RyanClayson
                             }
                             else if (shareType == "Preferred")
                             {
+                                //Adds the values received to the list. Displays in View Objects tab when new entry is created
+                                PreferredShares preferredShare = new PreferredShares(txtBuyerName.Text, dpDatePurchased.Text, shares, shareType);
+                                list.Add(preferredShare);
+
                                 //updates database for preferred shares
                                 updateQuery = "UPDATE shares SET numPreferredShares = '" + availableShares + "' ";
                                 SqlCommand thirdCommand = new SqlCommand(updateQuery, cn);
@@ -135,6 +147,7 @@ namespace NETD3202_Lab3_RyanClayson
                             dpDatePurchased.SelectedDate = null;
                             rbCommon.IsChecked = false; rbPreferred.IsChecked = false;
                             cn.Close();
+                            lstShares.Items.Refresh();
                             //closes
                         }
                     }

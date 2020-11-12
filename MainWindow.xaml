@@ -9,7 +9,7 @@
     <Grid>
         <TabControl x:Name="tabControl" SelectionChanged="TabControl_SelectionChanged">
           <!--Tab that allows user to enter information and create an entry-->
-          <TabItem x:Name="tbCreateEntry" Header="Create Entry" Width="200">
+          <TabItem x:Name="tbCreateEntry" Header="Create Entry" Width="120">
             <!--Start of Stack Panel-->
             <StackPanel Grid.Column="1" Margin="50" Orientation="Vertical">
               <!--Label and Textboxes for user input-->
@@ -33,7 +33,7 @@
             <!--End of TabItem-->
           </TabItem>
           <!--Tab that allows user to view information-->
-            <TabItem x:Name="tbViewSummary" Header="View Summary" Width="200">
+            <TabItem x:Name="tbViewSummary" Header="View Summary" Width="120">
               <!--Start of Stack Panel-->
               <StackPanel Margin="50" Orientation="Vertical">
                 <!--Label and Textboxes for view summary-->
@@ -57,9 +57,25 @@
               <!--End of TabItem-->
             </TabItem>
           <!--Tab that allows user to view entries-->
-            <TabItem x:Name="tbViewEntries" Header="View Entries" Width="200">
+            <TabItem x:Name="tbViewEntries" Header="View Entries" Width="120">
               <DataGrid Name="viewEntriesGrid"></DataGrid>
               <!--End of TabItem-->
+            </TabItem>
+            <TabItem x:Name="tbViewObjects" Header="View Objects" Width="120">
+                <Grid>
+                    <ListView x:Name="lstShares" Margin="5,5,5,5">
+                        <ListView.View>
+                            <GridView x:Name="sharesGridView">
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding BuyerName}" Width="80"></GridViewColumn>
+                                <GridViewColumn Header="Number of Shares" DisplayMemberBinding="{Binding NumShares}"></GridViewColumn>
+                                <GridViewColumn Header="Date Purchased" DisplayMemberBinding="{Binding PurchasedDate}"></GridViewColumn>
+                                <GridViewColumn Header="Share Type" DisplayMemberBinding="{Binding ShareType}" Width="70"></GridViewColumn>
+                                <GridViewColumn Header="Share Price" DisplayMemberBinding="{Binding SharePrice}"></GridViewColumn>
+                                <GridViewColumn Header="Voting Power" DisplayMemberBinding="{Binding VotingPower}"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
             </TabItem>
           <!--End of TabControl-->
         </TabControl>
